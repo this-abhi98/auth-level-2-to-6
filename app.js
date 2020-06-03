@@ -1,4 +1,6 @@
 //jshint esversion:6
+
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -26,8 +28,8 @@ const userSchema = new mongoose.Schema ({               //if you use encryption 
   password: String
 });
 
-const secret = "thisisourourlittlesecret.";                  //secret key for encryption and decryption
-userSchema.plugin(encrypt,{secret:secret, encryptedFields:["password"]});  //if you wont include encrypted fiels  then it will  encrypt everythin inside schema
+
+userSchema.plugin(encrypt,{secret:process.env.SECRET, encryptedFields:["password"]});  //if you wont include encrypted fiels  then it will  encrypt everythin inside schema
 const User = mongoose.model("User",userSchema);
 
 app.get("/",function(req,res){
